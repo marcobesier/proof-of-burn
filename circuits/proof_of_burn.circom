@@ -185,7 +185,7 @@ template ProofOfBurn(maxNumLayers, maxNodeBlocks, maxHeaderBlocks, minLeafAddres
     // fields of an account.
     numDetectedLeaves === 1;
     signal isLastLayerLeaf <== LeafDetector(maxNodeBlocks * 136)(lastLayer, lastLayerLen);
-    isLastLayerLeaf === 1;
+    assert(isLastLayerLeaf == 1);
 
     // Keccak of the top layer should be equal with the claimed state-root
     for(var i = 0; i < 32; i++) {
@@ -203,7 +203,7 @@ template ProofOfBurn(maxNumLayers, maxNodeBlocks, maxHeaderBlocks, minLeafAddres
     for(var i = 0; i < maxLeafLen; i++) {
         leaf[i] === lastLayer[i];
     }
-    leafLen === lastLayerLen;
+    assert(leafLen == lastLayerLen);
 
     // Check if PoW has been done in order to find burnKey
     // The user can increase the PoW zero-bytes through `byteSecurityRelax` and relax 
