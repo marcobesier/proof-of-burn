@@ -40,14 +40,14 @@ template Spend(maxAmountBytes) {
     assert(maxAmountBytes <= 31); // To avoid field overflows
     AssertGreaterEqThan(maxAmountBytes * 8)(balance, withdrawnBalance);
 
-    signal coin <== Poseidon(3)([POSEIDON_COIN_PREFIX(), burnKey, balance]);
+    signal coin <-- Poseidon(3)([POSEIDON_COIN_PREFIX(), burnKey, balance]);
     signal remainingCoin <== Poseidon(3)([POSEIDON_COIN_PREFIX(), burnKey, balance - withdrawnBalance]);
 
     signal coinBytes[32] <== Num2BigEndianBytes(32)(coin);
     signal withdrawnBalanceBytes[32] <== Num2BigEndianBytes(32)(withdrawnBalance);
     signal remainingCoinBytes[32] <== Num2BigEndianBytes(32)(remainingCoin);
     signal extraCommmitmentBytes[32] <== Num2BigEndianBytes(32)(extraCommitment);
-    commitment <== PublicCommitment(4)(
+    commitment <-- PublicCommitment(4)(
         [coinBytes, withdrawnBalanceBytes, remainingCoinBytes, extraCommmitmentBytes]
     );
 }
